@@ -1,21 +1,29 @@
 from flask import Flask
 from flask import request, jsonify
+from flask_sqlalchemy import SQLAlchemy
 
 from algo.experiment import Experiment
-from database import db,models
+from database.models import Picture,Game
 from mail.mail import Mailer
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://autist:pass@localhost:5432/postgres'
+db = SQLAlchemy(app)
+db.create_all()
 
 
-@app.route('/pictures', methods=['GET', 'POST'])
+@app.route('/pictures', methods=['GET','POST'])
 def return_picture():
     exp = Experiment()
-    session
     if request.method == 'GET':
-        return 'Lukyan petuh'
+        db.session.add(Picture(id =0, name='1', category='animal', picture='vk.com'))
+        db.session.commit()
+        return 'success'
     if request.method == 'POST':
+        pictures = db.session.query(Picture)
+        for picture in pictures:
+            return picture.picture
         return jsonify(exp.choose_elem())
 
 
