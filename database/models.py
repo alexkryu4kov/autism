@@ -4,14 +4,14 @@ from database.db import Database
 
 class Picture(Database.declare_base()):
     __tablename__ = 'pictures'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    level = Column(Integer)
     category = Column(String(50))
-    picture = Column(String(100), unique=True)
+    picture = Column(String(100))
 
-    def __init__(self, id, name, category, picture):
+    def __init__(self, id, level, category, picture):
         self.id = id
-        self.name = name
+        self.level = level
         self.category = category
         self.picture = picture
 
@@ -19,17 +19,17 @@ class Picture(Database.declare_base()):
         return f"<User(amount={self.name}, accuracy={self.category}', time={self.picture})>"
 
 
-class Game(Database.declare_base()):
-    __tablename__ = 'games'
+class User(Database.declare_base()):
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
-    amount = Column(Integer)
-    accuracy = Column(Float)
+    email = Column(String(50))
+    points = Column(Integer)
+    all_points = Column(Integer)
     time = Column(Time)
 
-    def __init__(self, amount, accuracy, time):
+    def __init__(self, email, amount, points, all_points, time):
+        self.email = email
         self.amount = amount
-        self.accuracy = accuracy
+        self.points = points
+        self.all_points = all_points
         self.time = time
-
-    def __repr__(self):
-        return f"<User(amount={self.amount}, accuracy={self.accuracy}', time={self.time})>"
